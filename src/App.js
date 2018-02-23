@@ -25,11 +25,18 @@ list.push(new Stuff('Redux',
         2,5,1))
 
 class App extends Component {
-  construstor(props){
+  constructor(props){
     super(props);
 
     this.state = {
-        list: list
+        list: list,
+    };
+
+    this.onDismiss = this.onDismiss.bind(this);
+
+    onDismiss(id){
+        const isNotId = item => item.objectId !== id;
+        const updatedList = this.state.list.filter(isNotId);
     }
   }
 
@@ -38,7 +45,7 @@ class App extends Component {
     const user = { first : 'Jason', last : 'H'}
     return (
       <div className="App">
-          {list.map((item) =>
+          {this.state.list.map((item) =>
               <div key={item.objectId}>
                   <span>
                       <a href={item.url}>{item.title} </a>
@@ -46,6 +53,13 @@ class App extends Component {
                   <span>{item.author}</span>
                   <span>{item.num_comments}</span>
                   <span>{item.points}</span>
+                  <span>
+                      <button
+                          onClick={() => this.onDismiss(item.objectID)}
+                          type="button">
+                          Dismiss
+                      </button>
+                  </span>
               </div>)}
       </div>);
   }
